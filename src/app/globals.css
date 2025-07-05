@@ -41,6 +41,29 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Design Systems */
+  --color-primary: #48093E;
+
+  --color-black-0: #ffffff;
+  --color-black-10: #fafafa;
+  --color-black-20: #f5f5f5;
+  --color-black-30: #ebebeb;
+  --color-black-40: #dedede;
+  --color-black-50: #c0c0c0;
+  --color-black-60: #b0b0b0;
+  --color-black-70: #a4a4a4;
+  --color-black-80: #949494;
+  --color-black-90: #858585;
+  --color-black-100: #767676;
+  --color-black-200: #676767;
+  --color-black-300: #575757;
+  --color-black-400: #4b4b4b;
+  --color-black-500: #3b3b3b;
+  --color-black-600: #2f2f2f;
+  --color-black-700: #1d1d1d;
+  --color-black-800: #0e0e0e;
+  --color-black-900: #010101;
 }
 
 :root {
@@ -116,6 +139,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
