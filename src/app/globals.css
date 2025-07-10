@@ -4,8 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--color-primary);
+  --color-foreground: var(--color-white);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -66,11 +66,11 @@
   --color-black-900: #010101;
 
   /* Responsive padding (px) */
-  --container-padding-sm: 16px;
-  --container-padding-md: 24px;
-  --container-padding-lg: 40px;
-  --container-padding-xl: 60px;
-  --container-padding-2xl: 80px;
+  --container-padding-sm: 8px;
+  --container-padding-md: 12px;
+  --container-padding-lg: 20px;
+  --container-padding-xl: 30px;
+  --container-padding-2xl: 40px;
 
   /* Max-widths */
   --container-max-width-sm: 640px;
@@ -84,7 +84,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: #010101;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
