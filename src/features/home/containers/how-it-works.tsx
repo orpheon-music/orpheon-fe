@@ -30,7 +30,7 @@ export default function HowItWorks() {
                     </div>
                     <h1 className="text-6xl">Everyone Is a Singer</h1>
                     <p className="text-[#CECECE] text-sm md:text-base leading-relaxed">
-                        Our AI-powered mastering tool transforms raw vocals into studio-quality sound, instantly. Whether you're recording on your phone or mic, your voice deserves to shine. No complicated settings. No audio expertise needed. Just upload, master, and share your best sound yet.
+                        Our AI-powered mastering tool transforms raw vocals into studio-quality sound, instantly. Whether you&apos;re recording on your phone or mic, your voice deserves to shine. No complicated settings. No audio expertise needed. Just upload, master, and share your best sound yet.
                     </p>
                 </div>
                 <hr className="h-[1px] w-full max-w-[900px]" />
