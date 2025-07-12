@@ -5,6 +5,8 @@ import Step2 from "@/assets/images/home/hiw-step2.png"
 import Step3 from "@/assets/images/home/hiw-step3.png"
 import Ellipse1 from "@/assets/images/home/hiw-ellipse.png"
 import Ellipse2 from "@/assets/images/home/hiw-ellipse2.png"
+import EllipseHeroBottom from "@/assets/images/home/ellips-hero-bottom.png"
+
 
 const steps = [
     { image: Step1, title: "Record Your Part", desc: "Feel free to express yourself freely. Let your voice be heard and share your unique perspective with the world!" },
@@ -14,7 +16,9 @@ const steps = [
 
 export default function HowItWorks() {
     return (
-        <section className='py-12 flex flex-col gap-9 relative'>
+        <section id='about' className='py-12 flex flex-col gap-9 relative'>
+            <Image src={EllipseHeroBottom} alt="Ellipse Hero Bottom" className="absolute rotate-180 top-0 left-0 w-full h-auto z-[20]" />
+
             <Image src={Ellipse1} alt='' className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' />
             <Image
                 src={Ellipse2}

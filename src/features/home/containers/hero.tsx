@@ -7,6 +7,7 @@ import EllipseHeroBottom from "@/assets/images/home/ellips-hero-bottom.png"
 export default function Hero() {
     return (
         <section
+        id='hero'
             style={{
                 position: "relative",
                 width: "100vw",

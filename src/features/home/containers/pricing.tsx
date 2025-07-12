@@ -44,7 +44,7 @@ export default function Pricing() {
     ]
 
     return (
-        <div className="min-h-screen bg-black text-white py-20 md:py-52 px-4">
+        <div id="pricing" className="min-h-screen bg-black text-white py-20 md:py-52 px-4">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className='flex justify-center items-center flex-col gap-8'>
