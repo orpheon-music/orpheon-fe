@@ -12,7 +12,7 @@ export default function Sample() {
   const [selected, setSelected] = useState<"AI-Assisted" | "Original">("AI-Assisted")
 
   return (
-    <section className='mt-20 md:mt-52 bg-black py-20'>
+    <section id='sample' className='mt-20 md:mt-52 bg-black py-20'>
       <div className='flex justify-center items-center flex-col gap-8 z-30'>
         <div className='flex gap-2 items-center py-2 px-4 border border-white'>
           <div className='w-8 h-8 bg-white rounded-full' />

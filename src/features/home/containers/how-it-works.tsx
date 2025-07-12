@@ -16,7 +16,7 @@ const steps = [
 
 export default function HowItWorks() {
     return (
-        <section className='py-12 flex flex-col gap-9 relative'>
+        <section id='about' className='py-12 flex flex-col gap-9 relative'>
             <Image src={EllipseHeroBottom} alt="Ellipse Hero Bottom" className="absolute rotate-180 top-0 left-0 w-full h-auto z-[20]" />
 
             <Image src={Ellipse1} alt='' className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' />
