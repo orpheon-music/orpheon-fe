@@ -5,8 +5,8 @@ import { Button } from "../ui/button"
 import { ArrowUpRight, LogIn } from "lucide-react"
 import NextLink from "next/link"
 import { Link as ScrollLink } from "react-scroll"
-import SignInModal from "./sign-in-modal"
-import SignUpModal from "./sign-up-modal"
+import SignInModal from "../../features/auth/components/sign-in-modal"
+import SignUpModal from "../../features/auth/components/sign-up-modal"
 import { useState } from "react"
 
 export default function Navbar() {
