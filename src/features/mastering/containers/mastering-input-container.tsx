@@ -61,12 +61,12 @@ export default function MasteringInputContainer() {
         >
             <h1 className="text-white text-3xl font-semibold text-center">File Upload</h1>
 
-            <div className="container py-10 px-14 rounded-3xl mt-9 bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.50)] transition-colors border max-w-4xl"
-                style={{ backdropFilter: 'blur(27.85px)' }}
-            >
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
 
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+                    <div className="container py-10 md:px-14 rounded-3xl mt-9 bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.50)] transition-colors border max-w-4xl flex flex-col gap-6 "
+                        style={{ backdropFilter: 'blur(27.85px)' }}
+                    >
                         {/* Vocal File Upload */}
                         <FormField
                             control={form.control}
@@ -75,7 +75,7 @@ export default function MasteringInputContainer() {
                                 <FormItem>
                                     <FormControl>
                                         <div
-                                            className="py-10 px-14 rounded-3xl bg-[rgba(255,255,255,0.05)] border-dashed border-[rgba(255,255,255,0.50)] flex justify-center items-center gap-6"
+                                            className="flex flex-col md:flex-row py-10 px-3 md:px-14 rounded-3xl bg-[rgba(255,255,255,0.05)] border-dashed border-[rgba(255,255,255,0.50)] justify-center items-center gap-6"
                                             style={{ backdropFilter: 'blur(27.85px)' }}
                                         >
                                             <Image src={Mic} alt="Mic" />
@@ -107,7 +107,7 @@ export default function MasteringInputContainer() {
                                 <FormItem>
                                     <FormControl>
                                         <div
-                                            className="py-10 px-14 rounded-3xl bg-[rgba(255,255,255,0.05)] border-dashed border-[rgba(255,255,255,0.50)] flex justify-center items-center gap-6"
+                                            className="flex flex-col md:flex-row py-10 px-14 rounded-3xl bg-[rgba(255,255,255,0.05)] border-dashed border-[rgba(255,255,255,0.50)] justify-center items-center gap-6"
                                             style={{ backdropFilter: 'blur(27.85px)' }}
                                         >
                                             <Image src={Guitar} alt="Guitar" />
@@ -138,7 +138,7 @@ export default function MasteringInputContainer() {
                                 <FormItem>
                                     <FormControl>
                                         <div
-                                            className="py-10 px-14 rounded-3xl bg-[rgba(255,255,255,0.05)] border-dashed border-[rgba(255,255,255,0.50)] flex items-stretch gap-6"
+                                            className="flex flex-col lg:flex-row py-10 px-14 rounded-3xl bg-[rgba(255,255,255,0.05)] border-dashed border-[rgba(255,255,255,0.50)] items-center xl:items-stretch gap-6"
                                             style={{ backdropFilter: 'blur(27.85px)' }}
                                         >
                                             <Image src={Bookmark} alt="Bookmark" />
@@ -169,7 +169,8 @@ export default function MasteringInputContainer() {
                                 </FormItem>
                             )}
                         />
-                        <div className='flex justify-center items-center gap-6'>
+
+                        <div className='flex flex-col md:flex-row justify-center items-center gap-6'>
                             <div className='py-8 px-6 flex flex-col gap-6 rounded-3xl border border-[rgba(255,255,255,0.50)] bg-[rgba(255,255,255,0.05)] transition-colors'>
                                 <span className=''>Support</span>
                                 <span className='text-2xl'>WAV, MP3, FLAC</span>
@@ -182,15 +183,16 @@ export default function MasteringInputContainer() {
                             </div>
                         </div>
 
-                    </form>
-                </Form>
-            </div>
-            <Button
-                type="submit"
-                className="w-full max-w-4xl flex self-center py-5 bg-white text-black font-semibold rounded"
-            >
-                Upload Files
-            </Button>
-        </div>
+
+                    </div>
+                    <Button
+                        type="submit"
+                        className="w-full max-w-4xl flex self-center py-5 bg-white text-black font-semibold rounded"
+                    >
+                        Upload Files
+                    </Button>
+                </form>
+            </Form>
+        </div >
     )
 }
