@@ -2,16 +2,16 @@ import { User as NextAuthUser } from "next-auth";
 
 declare module "next-auth" {
     interface User extends NextAuthUser {
-        id: string;
-        username: string;
-        token?: string;
+        access_token?: string;
     }
 
     interface Session {
         user?: {
-            id: string,
-            username: string,
-            token: string
+            access_token?: string;
         }
     }
+}
+
+export interface DecodedJWT {
+  user_id: string;
 }

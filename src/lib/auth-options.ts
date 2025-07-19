@@ -2,6 +2,7 @@ import { BASE_URL, NEXTAUTH_SECRET } from "@/lib/env";
 import axios from "axios";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { decodeJwt } from "./decode";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -22,29 +23,30 @@ export const authOptions: NextAuthOptions = {
                         },
                     });
 
-                    const user = response.data?.users;
-
-                    if (user && user.token) {
+                    const token = response.data?.access_token;
+                    const decoded = decodeJwt(token);
+                    if (token) {
                         return {
-                            id: user.id,
-                            username: user.username,
-                            token: user.token,
+                            email: credentials?.email,
+                            id: decoded.user_id,
+                            username: credentials?.email.split("@")[0],
+                            access_token: token,
                         };
                     }
 
                     return null;
                 } catch (err) {
                     if (axios.isAxiosError(err)) {
-                        throw new Error(err.response?.data || "Login failed");
+                        throw new Error(err.response?.data.detail || "Login failed");
                     } else {
                         throw new Error("An unexpected error occurred during login.");
                     }
                 }
             },
-        }),
+        }), 
     ],
     pages: {
-        signIn: "/login",
+        signIn: "/?signin=true",
     },
     session: {
         strategy: "jwt",
@@ -53,18 +55,14 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token.id = user.id;
-                token.username = user.username;
-                token.token = user.token;
+                token.access_token = user.access_token;
             }
             return token;
         },
         async session({ session, token }) {
             session.user = {
+                access_token: token.access_token as string,
                 ...session.user,
-                id: token.id as string,
-                username: token.username as string,
-                token: token.token as string,
             };
             return session;
         },
