@@ -5,6 +5,7 @@ import Navbar from "@/components/shared/navbar";
 import { Toaster } from "sonner";
 import NextAuthProvider from "@/components/provider/next-auth-provider";
 import ReactQueryProvider from "@/components/provider/react-query-provider";
+import { Suspense } from "react";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -28,8 +29,11 @@ export default function RootLayout({
         <Toaster />
         <NextAuthProvider>
           <ReactQueryProvider>
-            <Navbar />
-            {children}</ReactQueryProvider>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Navbar />
+              {children}
+            </Suspense>
+          </ReactQueryProvider>
         </NextAuthProvider>
       </body>
     </html>
