@@ -56,7 +56,7 @@ export default function SignUpModal({
         },
     })
 
-    const { isLoading,register } = useSignUp()
+    const { isLoading, register } = useSignUp()
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         await register(values)
@@ -77,7 +77,8 @@ export default function SignUpModal({
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md md:max-w-xl border-[#EFEFEF] bg-white/05 rounded-3xl text-white px-8 md:px-14 py-12 md:py-20">
+            <DialogContent className="sm:max-w-md md:max-w-xl border-[#EFEFEF] bg-white/05 rounded-3xl text-white px-8 md:px-14 py-12 md:py-20"
+                style={{ backdropFilter: "blur(14.5px)" }}>
                 <DialogHeader className="text-center pb-4">
                     <DialogTitle className="text-center text-3xl font-bold text-white mb-5">Create your account</DialogTitle>
                     <p className="text-center text-[#C0C0C0] text-sm md:text-base">Start your journey with us</p>
