@@ -25,7 +25,7 @@ export function useSignUp({ onSuccess, onError }: UseSignUpProps = {}) {
         method: "post",
         url: "/auth/register",
         options: {
-            onSuccess: (data) => {
+            onSuccess: () => {
                 toast.success("Registration successful!")
                 onSuccess?.()
                 router.refresh()

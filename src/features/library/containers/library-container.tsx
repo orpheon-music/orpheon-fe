@@ -1,8 +1,5 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
 import Pagination from "@/components/shared/pagination"
 
 const audioFiles = [
