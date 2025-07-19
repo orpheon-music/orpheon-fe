@@ -28,11 +28,11 @@ export default function Navbar() {
     }
 
     return (
-        <nav className="fixed bottom-10 left-0 right-0 z-[999] backdrop-blur-md">
+        <nav className="fixed bottom-10 left-0 right-0 z-[999]">
             <div className="container relative">
                 <div className="flex justify-between items-center relative">
                     {/* Logo kiri */}
-                    <NextLink href={"/"} className="hidden md:block">
+                    <NextLink href={"/"} className="hidden lg:block">
                         <Image alt="Orpheon Logo" src={"/assets/images/logo_nav.png"} width={200} height={88} />
                     </NextLink>
 
@@ -115,12 +115,12 @@ export default function Navbar() {
                                 </div>
 
                                 <div className="flex items-center gap-6 text-white">
-                                    <div className="flex items-center gap-3 cursor-pointer">
+                                    <Link href={"/signout"} className="flex items-center gap-3 cursor-pointer">
                                         <span className="text-sm">Sign Out</span>
                                         <Button className="bg-white w-12 h-12 flex justify-center items-center text-black hover:bg-gray-200 transition-all duration-200 font-semibold rounded-full">
                                             <ArrowUpRight className="h-4 w-4" />
                                         </Button>
-                                    </div>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
