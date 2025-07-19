@@ -1,15 +1,14 @@
 "use client"
 
+import { ArrowUpRight } from "lucide-react"
+import { useSession } from "next-auth/react"
 import Image from "next/image"
-import { Button } from "../ui/button"
-import { ArrowUpRight, LogIn } from "lucide-react"
-import NextLink from "next/link"
+import { default as Link, default as NextLink } from "next/link"
+import { useState } from "react"
 import { Link as ScrollLink } from "react-scroll"
 import SignInModal from "../../features/auth/components/sign-in-modal"
 import SignUpModal from "../../features/auth/components/sign-up-modal"
-import { useState } from "react"
-import { useSession } from "next-auth/react"
-import Link from "next/link"
+import { Button } from "../ui/button"
 
 export default function Navbar() {
     const session = useSession()
