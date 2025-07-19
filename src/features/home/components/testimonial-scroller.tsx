@@ -27,7 +27,7 @@ export default function TestimonialScroller() {
     if (!container) return;
 
     let scrollAmount = 0;
-    const scrollSpeed = 3;
+    const scrollSpeed = 2;
 
     const scroll = () => {
       if (!container) return;
@@ -52,7 +52,7 @@ export default function TestimonialScroller() {
         {[...testimonials, ...testimonials].map((item, i) => (
           <div
             key={i}
-            className={`border-t border-white/20 py-4 w-full transition-opacity duration-300`}
+            className={`border-t border-white/40 py-4 w-full transition-opacity duration-300`}
           >
             <p className="text-2xl md:text-4xl leading-relaxed">{item.message}</p>
             <p className="text-base mt-2 text-[#979797]">{item.author}</p>

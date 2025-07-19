@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/shared/navbar";
+import { Toaster } from "sonner";
+import NextAuthProvider from "@/components/provider/next-auth-provider";
+import ReactQueryProvider from "@/components/provider/react-query-provider";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -22,8 +25,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.variable} antialiased`}>
-        <Navbar/>
-        {children}
+        <Toaster />
+        <NextAuthProvider>
+          <ReactQueryProvider>
+            <Navbar />
+            {children}</ReactQueryProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );
