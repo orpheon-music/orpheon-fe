@@ -56,12 +56,12 @@ export default function MasteringInputContainer() {
 
     return (
         <div
-            className="min-h-screen bg-cover bg-center py-10 md:py-20"
+            className="min-h-screen bg-cover bg-center py-10 md:pt-20 md:pb-40 flex flex-col items-center justify-center gap-9"
             style={{ backgroundImage: 'url("/authenticated-bg.png")' }}
         >
-            <h1 className="text-white text-3xl font-semibold text-center mb-12">File Upload</h1>
+            <h1 className="text-white text-3xl font-semibold text-center">File Upload</h1>
 
-            <div className="container py-10 px-14 rounded-3xl mt-9 bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.50)] transition-colors border"
+            <div className="container py-10 px-14 rounded-3xl mt-9 bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.50)] transition-colors border max-w-4xl"
                 style={{ backdropFilter: 'blur(27.85px)' }}
             >
                 <Form {...form}>
@@ -169,16 +169,28 @@ export default function MasteringInputContainer() {
                                 </FormItem>
                             )}
                         />
+                        <div className='flex justify-center items-center gap-6'>
+                            <div className='py-8 px-6 flex flex-col gap-6 rounded-3xl border border-[rgba(255,255,255,0.50)] bg-[rgba(255,255,255,0.05)] transition-colors'>
+                                <span className=''>Support</span>
+                                <span className='text-2xl'>WAV, MP3, FLAC</span>
+                                <span className='text-[#C0C0C0]'>formats</span>
+                            </div>
+                            <div className='py-8 px-6 flex flex-col gap-6 rounded-3xl border border-[rgba(255,255,255,0.50)] bg-[rgba(255,255,255,0.05)] transition-colors'>
+                                <span className=''>Under</span>
+                                <span className='text-2xl'>100 MB, 10 mins</span>
+                                <span className='text-[#C0C0C0]'>audio file</span>
+                            </div>
+                        </div>
 
-                        <Button
-                            type="submit"
-                            className="w-full py-5 bg-white text-black font-semibold rounded"
-                        >
-                            Upload Files
-                        </Button>
                     </form>
                 </Form>
             </div>
+            <Button
+                type="submit"
+                className="w-full max-w-4xl flex self-center py-5 bg-white text-black font-semibold rounded"
+            >
+                Upload Files
+            </Button>
         </div>
     )
 }
