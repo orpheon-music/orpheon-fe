@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { useSignUp } from "../services/use-sign-up"
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -55,8 +56,10 @@ export default function SignUpModal({
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log("Register values:", values)
+    const { isLoading,register } = useSignUp()
+
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        await register(values)
     }
 
     const handleSwitchToSignIn = () => {
@@ -173,7 +176,7 @@ export default function SignUpModal({
                             />
                         </div>
 
-                        <Button type="submit" className="w-full" variant={"default"} size={"lg"}>
+                        <Button disabled={isLoading} type="submit" className="w-full" variant={"default"} size={"lg"}>
                             Register
                         </Button>
                     </form>
