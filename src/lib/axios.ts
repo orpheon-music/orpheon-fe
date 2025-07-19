@@ -22,7 +22,7 @@ const createInstance = (config?: CreateAxiosDefaults) => {
             if (session) {
                 config.headers[
                     "Authorization"
-                ] = `Bearer ${session?.user?.token}`;
+                ] = `Bearer ${session?.user?.access_token}`;
             }
 
             if (!config.headers["Content-Type"]) {
