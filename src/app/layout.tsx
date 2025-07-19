@@ -25,9 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.variable} antialiased`}>
-        <Navbar />
         <Toaster />
         <NextAuthProvider>
+          <Navbar />
           <ReactQueryProvider>{children}</ReactQueryProvider>
         </NextAuthProvider>
       </body>
