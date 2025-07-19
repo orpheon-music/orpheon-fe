@@ -29,7 +29,7 @@ export default function RootLayout({
         <Toaster />
         <NextAuthProvider>
           <ReactQueryProvider>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div></div>}>
               <Navbar />
               {children}
             </Suspense>

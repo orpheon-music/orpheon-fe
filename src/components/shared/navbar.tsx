@@ -31,7 +31,7 @@ export default function Navbar() {
             <div className="container relative">
                 <div className="flex justify-between items-center relative">
                     {/* Logo kiri */}
-                    <NextLink href={"/"} className="hidden lg:block">
+                    <NextLink href={"/"} className="hidden xl:block">
                         <Image alt="Orpheon Logo" src={"/assets/images/logo_nav.png"} width={200} height={88} />
                     </NextLink>
 
@@ -85,7 +85,7 @@ export default function Navbar() {
                                         onOpenChange={setSignInOpen}
                                         onSwitchToSignUp={handleSwitchToSignUp}
                                         trigger={
-                                            <div className="flex items-center gap-3 cursor-pointer">
+                                            <div className="flex items-center gap-3 cursor-pointer whitespace-nowrap">
                                                 <span className="text-sm">Get Started</span>
                                                 <Button className="bg-white w-12 h-12 flex justify-center items-center text-black hover:bg-gray-200 transition-all duration-200 font-semibold rounded-full">
                                                     <ArrowUpRight className="h-4 w-4" />

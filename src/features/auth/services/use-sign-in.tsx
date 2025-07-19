@@ -29,7 +29,7 @@ export function useSignIn({ onSuccess, onError }: UseSignInProps = {}) {
     if (res?.ok) {
       toast.success("Login successful!")
       onSuccess?.()
-      router.refresh()
+      router.push("/mastering")
     } else {
       const message = res?.error || "Login failed. Please try again."
       toast.error(message)
