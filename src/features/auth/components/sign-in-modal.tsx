@@ -14,6 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { signIn } from "next-auth/react"
 import { toast } from "sonner"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSignIn } from "../services/use-sign-in"
 
 const formSchema = z.object({
     email: z.string().email({
@@ -72,21 +73,20 @@ export default function SignInModal({
         },
     })
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
-        const res = await signIn("credentials", {
-            email: values.email,
-            password: values.password,
-            redirect: false,
-            callbackUrl: "/",
-        })
-
-        if (res?.ok) {
-            toast.success("Login successful!")
+    const { signInWithCredentials } = useSignIn({
+        onSuccess: () => {
             setOpen(false)
             form.reset()
-        } else {
-            toast.error(res?.error || "Login failed. Please try again.")
-        }
+        },
+    })
+
+
+
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        await signInWithCredentials({
+            email: values.email,
+            password: values.password,
+        })
     }
 
     const handleSwitchToSignUp = () => {
