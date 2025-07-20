@@ -22,6 +22,8 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 import { AudioProcessingResponse } from '../types'
 import { AxiosResponse } from 'axios'
+import { useState } from 'react'
+import MasteringLoadingModal from '../components/mastering-loading-modal'
 
 const FormSchema = z.object({
     voice_file: z
@@ -46,6 +48,8 @@ const FormSchema = z.object({
 type FormSchemaType = z.infer<typeof FormSchema>
 
 export default function MasteringInputContainer() {
+    const [loading, setLoading] = useState(false)
+
     const form = useForm<FormSchemaType>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -61,23 +65,30 @@ export default function MasteringInputContainer() {
     const router = useRouter()
 
     const onSubmit = async (data: FormSchemaType) => {
-        const formData = new FormData()
-        formData.append("voice_file", data.voice_file)
-        formData.append("instrument_file", data.instrument_file)
-        formData.append("reference_url", data.reference_url)
-        await uploadMutation.mutateAsync(formData, {
-            onSuccess: (res) => {
-                const response = res as AxiosResponse<AudioProcessingResponse>
-                toast.success("File uploaded successfully")
-                router.push(`/mastering/${response.data.audio_processing.id}`)
-            },
-            onError: (error) => {
-                const err = error as { response?: { data?: { message?: string } } }
-                toast.error(err.response?.data?.message || "Failed to upload files")
-                console.error("Gagal upload", error)
-            }
-        })
+        setLoading(true)
+
+        try {
+            await new Promise((resolve) => setTimeout(resolve, 5000))
+
+            const formData = new FormData()
+            formData.append("voice_file", data.voice_file)
+            formData.append("instrument_file", data.instrument_file)
+            formData.append("reference_url", data.reference_url)
+
+            const res = await uploadMutation.mutateAsync(formData)
+
+            const response = res as AxiosResponse<AudioProcessingResponse>
+            toast.success("File uploaded successfully")
+            router.push(`/mastering/${response.data.audio_processing.id}`)
+        } catch (error) {
+            const err = error as { response?: { data?: { message?: string } } }
+            toast.error(err.response?.data?.message || "Failed to upload files")
+            console.error("Gagal upload", error)
+        } finally {
+            setLoading(false) // sembunyikan modal
+        }
     }
+
 
     return (
         <div
@@ -85,6 +96,7 @@ export default function MasteringInputContainer() {
             style={{ backgroundImage: 'url("/authenticated-bg.png")' }}
         >
             <h1 className="text-white text-3xl font-semibold text-center">File Upload</h1>
+            <MasteringLoadingModal open={loading} />
 
 
             <Form {...form}>
@@ -212,7 +224,7 @@ export default function MasteringInputContainer() {
                     </div>
                     <Button
                         type="submit"
-                        className="w-full max-w-4xl flex self-center py-5 bg-white text-black font-semibold rounded"
+                        className="hover:text-white w-full max-w-4xl flex self-center py-5 bg-white text-black font-semibold rounded"
                     >
                         Upload Files
                     </Button>
