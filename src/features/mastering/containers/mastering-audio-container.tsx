@@ -1,16 +1,18 @@
 "use client"
-import type React from "react"
-import { useState, useRef, useEffect, useCallback } from "react"
-import AudioPlayer from "../components/audio-player"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 import Knob from "@/assets/images/mastering/knob.png"
-import Image from "next/image"
+import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
+import { api } from "@/lib/axios"
 import { FE_URL } from "@/lib/env"
+import { cn } from "@/lib/utils"
+import Image from "next/image"
+import { useParams, useRouter } from "next/navigation"
+import type React from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { toast } from "sonner"
+import AudioPlayer from "../components/audio-player"
 import { useGetAudioProcessingById } from "../services/use-get-audio-processing-by-id"
-import { useParams } from "next/navigation"
 
 export default function MasteringAudioContainer() {
     const { id } = useParams<{ id: string }>()
@@ -187,6 +189,35 @@ export default function MasteringAudioContainer() {
             document.removeEventListener("touchend", handleTouchEnd)
         }
     }, [handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd])
+    const router = useRouter()
+
+    // const { mutate } = useSaveAudio(id)
+    const handleSave = async () => {
+        const type = getKnobMode(aiKnobRotation).toLowerCase() as "smooth" | "dynamic" | "standard"
+        const formData = new FormData()
+        formData.append("type", type)
+        const response = await api.put(`/audio-processing/${id}`, formData, {
+            headers: {
+            "Content-Type": "multipart/form-data"
+            }
+        })
+        if (response.status !== 200) {
+            toast.error("Failed to save audio.")
+            return
+        }
+        toast.success("Audio saved successfully!")
+        router.push("/library")
+        // await mutate({ type }, {
+        //     onSuccess: () => {
+        //         toast.success("Audio saved successfully!")
+        //         router.push("/library")
+        //     },
+        //     onError: (error) => {
+        //         console.log(error)
+        //         toast.error("Failed to save audio.")
+        //     },
+        // })
+    }
 
     return (
         <section
@@ -197,7 +228,7 @@ export default function MasteringAudioContainer() {
                 <span>{isLoading ? "Loading..." : `${data?.audio_processing.name}`}</span>
                 <div className="flex gap-6">
                     <Button variant={"outline"}>Delete</Button>
-                    <Button variant={"white"}>Save</Button>
+                    <Button variant={"white"} onClick={handleSave}>Save</Button>
                 </div>
             </div>
 
@@ -205,7 +236,7 @@ export default function MasteringAudioContainer() {
             {
                 !isLoading && (
                     <AudioPlayer
-                        url={`${data?.audio_processing.standard_audio_url}` || `${FE_URL}/standard.wav}`}
+                        url={`${FE_URL}/standard.wav`}
                         highEq={highEq[0]}
                         mediumEq={mediumEq[0]}
                         lowEq={lowEq[0]}

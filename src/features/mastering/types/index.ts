@@ -14,3 +14,5 @@ export interface AudioProcessing {
 export interface AudioProcessingResponse {
     audio_processing: AudioProcessing;
 }
+
+export type AudioType = "smooth" | "dynamic" | "standard"
