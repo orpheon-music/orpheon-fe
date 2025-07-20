@@ -36,7 +36,7 @@ export default function LibraryContainer() {
             style={{ backgroundImage: 'url("/authenticated-bg.png")' }}
         >
             <h1 className="text-white text-3xl font-semibold text-center mb-12">Library</h1>
-            <div className="container min-h-[600px] py-10 px-14 rounded-3xl mt-9 bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.50)] transition-colors border flex flex-col items-center justify-between"
+            <div className="container min-h-[600px] py-10 px-14 rounded-3xl mt-9 bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.50)] transition-colors border flex flex-col items-stretch justify-between"
                 style={{ backdropFilter: "blur(27.85px)" }}>
 
                 {error && <p className="text-red-500 text-center">Failed to load audio files.</p>}
@@ -46,11 +46,11 @@ export default function LibraryContainer() {
                         {audioFiles.length === 0 ? (
                             <p className="text-white/60 text-center py-10">No audio files available.</p>
                         ) : (
-                            <div className="space-y-4 mb-8">
+                            <div className="space-y-4 mb-8 w-full">
                                 {audioFiles.map((file) => (
                                     <div
                                         key={file.id}
-                                        className="flex justify-between items-center bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.50)] border py-6 px-14 rounded-3xl transition-colors cursor-pointer"
+                                        className="w-full self-stretch flex justify-between items-center bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.50)] border py-6 px-14 rounded-3xl transition-colors cursor-pointer"
                                         style={{ backdropFilter: "blur(27.85px)" }}
                                     >
                                         <div className="space-y-1">
