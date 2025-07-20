@@ -48,12 +48,13 @@ export default function HowItWorks() {
             }, {
                 scrollTrigger: {
                     trigger: sectionRef.current,
-                    start: "top 80%",
+                    start: "top 60%",
                 },
                 opacity: 1,
                 y: 0,
-                duration: 9,
+                duration: 4,
                 stagger: 0.4,
+                delay: 1,
                 ease: "power3.out",
             })
         }, sectionRef)

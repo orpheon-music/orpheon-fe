@@ -23,11 +23,13 @@ export default function Sample() {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top 80%",
+            toggleActions: "play none none none",
+            once: true, 
           },
           opacity: 1,
           y: 0,
-          duration: 1,
-          stagger: 0.2,
+          duration: 4,
+          stagger: 0.7,
           ease: "power3.out",
         }
       )
