@@ -9,8 +9,13 @@ import Image from "next/image"
 import { Card } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
 import { FE_URL } from "@/lib/env"
+import { useGetAudioProcessingById } from "../services/use-get-audio-processing-by-id"
+import { useParams } from "next/navigation"
 
 export default function MasteringAudioContainer() {
+    const { id } = useParams<{ id: string }>()
+    const { data, isLoading } = useGetAudioProcessingById(id)
+
     const [selected, setSelected] = useState<"AI-Assisted" | "Manual">("AI-Assisted")
 
     // Separate rotation states for each knob
@@ -189,21 +194,26 @@ export default function MasteringAudioContainer() {
             style={{ backgroundImage: 'url("/authenticated-bg.png")' }}
         >
             <div className="flex justify-between items-center container">
-                <span>file.mp3</span>
+                <span>{isLoading ? "Loading..." : `${data?.audio_processing.name}`}</span>
                 <div className="flex gap-6">
                     <Button variant={"outline"}>Delete</Button>
                     <Button variant={"white"}>Save</Button>
                 </div>
             </div>
 
-            <AudioPlayer
-                url={`${FE_URL}/standard.wav`}
-                highEq={highEq[0]}
-                mediumEq={mediumEq[0]}
-                lowEq={lowEq[0]}
-                loudness={(loudnessRotation / 90) * 20} // Convert rotation to dB (-20 to +20)
-                stereoWidth={getStereoWidthValue(stereoWidthRotation)}
-            />
+            {/* Audio Player */}
+            {
+                !isLoading && (
+                    <AudioPlayer
+                        url={`${data?.audio_processing.standard_audio_url}` || `${FE_URL}/standard.wav}`}
+                        highEq={highEq[0]}
+                        mediumEq={mediumEq[0]}
+                        lowEq={lowEq[0]}
+                        loudness={(loudnessRotation / 90) * 20}
+                        stereoWidth={getStereoWidthValue(stereoWidthRotation)}
+                    />
+                )
+            }
 
             {/* Mode Toggle */}
             <div className="flex rounded-3xl border border-white/30 bg-white/5 p-1 backdrop-blur-sm justify-center items-center w-fit self-center">
