@@ -3,7 +3,6 @@ import Image from 'next/image'
 import React from 'react'
 import EllipseHeroBottom from "@/assets/images/home/ellips-hero-bottom.png"
 
-
 export default function Hero() {
     return (
         <section
@@ -15,6 +14,7 @@ export default function Hero() {
                 overflow: "hidden",
             }}
         >
+            {/* Video Background */}
             <video
                 src="/assets/videos/landing_video.mp4"
                 autoPlay
@@ -24,8 +24,11 @@ export default function Hero() {
                 className="absolute top-0 left-0 w-screen h-screen 2xl:h-[80vh] object-cover z-[1]"
             />
 
-            {/* <div className="absolute inset-0 bg-black/40 z-[2]" /> */}
+            {/* Overlay Gradient */}
+            <div className="absolute top-0 left-0 w-full h-full z-[2] bg-gradient-to-b from-[rgba(17,17,17,0.25)] to-[rgba(17,17,17,0.25)]" />
 
+
+            {/* Content */}
             <div className="container flex items-end relative z-[30] h-[80vh]">
                 <div className="flex justify-between flex-col gap-4 xl:flex-row w-full mb-5">
                     <div className="flex flex-col max-w-xl">
@@ -51,14 +54,10 @@ export default function Hero() {
                         </Button>
                     </div>
                 </div>
-
             </div>
+
+            {/* Bottom Ellipse Image */}
             <Image src={EllipseHeroBottom} alt="Ellipse Hero Bottom" className="absolute bottom-0 left-0 w-full h-auto z-[20]" />
-            {/* <Image
-                src={EllipseHeroBottom}
-                alt="Ellipse Hero Top"
-                className="absolute -bottom-20 left-0 w-full h-auto z-[20] rotate-180"
-            /> */}
         </section>
     )
 }
