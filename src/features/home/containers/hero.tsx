@@ -53,7 +53,7 @@ export default function Hero() {
             id='hero'
             style={{
                 position: "relative",
-                width: "100vw",
+                width: "100%",
                 height: "100vh",
                 overflow: "hidden",
             }}
@@ -65,7 +65,7 @@ export default function Hero() {
                 loop
                 muted
                 playsInline
-                className="hero-video absolute top-0 left-0 w-screen h-screen 2xl:h-[80vh] object-cover z-[1]"
+                className="hero-video absolute top-0 left-0 w-full h-screen 2xl:h-[80vh] object-cover z-[1]"
             />
 
             {/* Overlay Gradient */}
