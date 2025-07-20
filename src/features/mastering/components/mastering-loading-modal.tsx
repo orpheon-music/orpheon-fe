@@ -1,9 +1,8 @@
 "use client"
-import { useEffect, useState } from "react"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
+import LoadingAnimation from "@/assets/animations/loading.json";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import dynamic from "next/dynamic";
-import LoadingAnimation from "@/assets/animations/loading.json"
+import { useEffect, useState } from "react";
 
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 

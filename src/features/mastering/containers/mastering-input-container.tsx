@@ -17,13 +17,12 @@ import { useMutationApi } from '@/lib/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { AudioProcessingResponse } from '../types'
-import { AxiosResponse } from 'axios'
-import { useState } from 'react'
 import MasteringLoadingModal from '../components/mastering-loading-modal'
+import { AudioProcessingResponse } from '../types'
 
 const FormSchema = z.object({
     voice_file: z
@@ -77,9 +76,9 @@ export default function MasteringInputContainer() {
 
             const res = await uploadMutation.mutateAsync(formData)
 
-            const response = res as AxiosResponse<AudioProcessingResponse>
+            const response = res as AudioProcessingResponse
             toast.success("File uploaded successfully")
-            router.push(`/mastering/${response.data.audio_processing.id}`)
+            router.push(`/mastering/${response.audio_processing.id}`)
         } catch (error) {
             const err = error as { response?: { data?: { message?: string } } }
             toast.error(err.response?.data?.message || "Failed to upload files")
