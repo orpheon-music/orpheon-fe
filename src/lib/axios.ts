@@ -18,7 +18,7 @@ const createInstance = (config?: CreateAxiosDefaults) => {
                 // Server-side
                 session = await getServerSession(authOptions);
             }
-            config.headers["x-api-key"] = `Key ${process.env.NEXT_PUBLIC_API_KEY}`;
+            // config.headers["x-api-key"] = `Key ${process.env.NEXT_PUBLIC_API_KEY}`;
             if (session) {
                 config.headers[
                     "Authorization"
