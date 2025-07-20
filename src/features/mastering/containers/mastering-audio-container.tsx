@@ -1,6 +1,6 @@
 "use client"
 import type React from "react"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import AudioPlayer from "../components/audio-player"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -124,8 +124,15 @@ export default function MasteringAudioContainer() {
         lastAngle.current = getAngle(touch.clientX, touch.clientY)
     }
 
-    // Global mouse/touch move handlers
-    const handleMouseMove = (e: MouseEvent) => {
+
+
+    const handleMouseUp = () => {
+        isDraggingAi.current = false
+        isDraggingLoudness.current = false
+        isDraggingStereoWidth.current = false
+    }
+
+    const handleMouseMove = useCallback((e: MouseEvent) => {
         const angle = getAngle(e.clientX, e.clientY)
         const delta = angle - lastAngle.current
 
@@ -138,15 +145,9 @@ export default function MasteringAudioContainer() {
         }
 
         lastAngle.current = angle
-    }
+    }, []) // no dependencies because refs and state setters are stable
 
-    const handleMouseUp = () => {
-        isDraggingAi.current = false
-        isDraggingLoudness.current = false
-        isDraggingStereoWidth.current = false
-    }
-
-    const handleTouchMove = (e: TouchEvent) => {
+    const handleTouchMove = useCallback((e: TouchEvent) => {
         const touch = e.touches[0]
         const angle = getAngle(touch.clientX, touch.clientY)
         const delta = angle - lastAngle.current
@@ -160,7 +161,7 @@ export default function MasteringAudioContainer() {
         }
 
         lastAngle.current = angle
-    }
+    }, [])
 
     const handleTouchEnd = () => {
         isDraggingAi.current = false
@@ -180,7 +181,7 @@ export default function MasteringAudioContainer() {
             document.removeEventListener("touchmove", handleTouchMove)
             document.removeEventListener("touchend", handleTouchEnd)
         }
-    }, [])
+    }, [handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd])
 
     return (
         <section
