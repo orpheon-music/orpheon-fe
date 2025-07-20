@@ -1,11 +1,10 @@
 "use client"
 
-import { useState } from "react"
 import Pagination from "@/components/shared/pagination"
-import { Download } from "lucide-react"
-import { useGetLibrary } from "../services/use-get-library"
 import { FE_URL } from "@/lib/env"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Download } from "lucide-react"
+import { useState } from "react"
+import { useGetLibrary } from "../services/use-get-library"
 
 export default function LibraryContainer() {
     const [currentPage, setCurrentPage] = useState(1)
@@ -60,7 +59,7 @@ export default function LibraryContainer() {
                                             </p>
                                         </div>
                                         <button
-                                            onClick={() => handleDownload(file.standard_audio_url, file.name)}
+                                            onClick={() => handleDownload(`${FE_URL}/standard.wav`, file.name)}
                                             className="text-white hover:text-white/70 transition-colors"
                                             title="Download"
                                         >
@@ -71,13 +70,7 @@ export default function LibraryContainer() {
                             </div>
                         )}
 
-                        {audioFiles.length > 0 && (
-                            <Pagination
-                                currentPage={currentPage}
-                                totalPages={totalPages}
-                                onPageChange={(page) => setCurrentPage(page)}
-                            />
-                        )}
+
                     </>
                 )}
 
