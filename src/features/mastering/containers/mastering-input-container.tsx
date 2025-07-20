@@ -13,23 +13,28 @@ import {
     FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useMutationApi } from '@/lib/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
+import { AudioProcessingResponse } from '../types'
+import { AxiosResponse } from 'axios'
 
 const FormSchema = z.object({
-    vocalFile: z
+    voice_file: z
         .any()
         .refine((file) => file instanceof File || file?.length > 0, {
             message: 'Vocal file is required',
         }),
-    instrumentFile: z
+    instrument_file: z
         .any()
         .refine((file) => file instanceof File || file?.length > 0, {
             message: 'Instrument file is required',
         }),
-    referenceTrack: z
+    reference_url: z
         .string()
         .min(2, { message: 'Reference track is required' })
         .regex(
@@ -44,14 +49,34 @@ export default function MasteringInputContainer() {
     const form = useForm<FormSchemaType>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            vocalFile: undefined,
-            instrumentFile: undefined,
+            voice_file: undefined,
+            instrument_file: undefined,
+            reference_url: '',
         },
     })
+    const uploadMutation = useMutationApi({
+        method: "post",
+        url: "/audio-processing",
+    })
+    const router = useRouter()
 
-    const onSubmit = (data: FormSchemaType) => {
-        console.log('Submit files:', data)
-        // TODO: implement file upload logic
+    const onSubmit = async (data: FormSchemaType) => {
+        const formData = new FormData()
+        formData.append("voice_file", data.voice_file)
+        formData.append("instrument_file", data.instrument_file)
+        formData.append("reference_url", data.reference_url)
+        await uploadMutation.mutateAsync(formData, {
+            onSuccess: (res) => {
+                const response = res as AxiosResponse<AudioProcessingResponse>
+                toast.success("File uploaded successfully")
+                router.push(`/mastering/${response.data.audio_processing.id}`)
+            },
+            onError: (error) => {
+                const err = error as { response?: { data?: { message?: string } } }
+                toast.error(err.response?.data?.message || "Failed to upload files")
+                console.error("Gagal upload", error)
+            }
+        })
     }
 
     return (
@@ -70,7 +95,7 @@ export default function MasteringInputContainer() {
                         {/* Vocal File Upload */}
                         <FormField
                             control={form.control}
-                            name="vocalFile"
+                            name="voice_file"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
@@ -82,13 +107,13 @@ export default function MasteringInputContainer() {
                                             <span className="text-white">
                                                 {field.value instanceof File ? field.value.name : 'Upload Vocal File'}
                                             </span>
-                                            <Button className='py-5 px-10 cursor-pointer' type="button" onClick={() => document.getElementById('vocalFileInput')?.click()}>
+                                            <Button className='py-5 px-10 cursor-pointer' type="button" onClick={() => document.getElementById('voice_fileInput')?.click()}>
                                                 Browse
                                             </Button>
                                             <input
                                                 type="file"
                                                 accept="audio/*"
-                                                id="vocalFileInput"
+                                                id="voice_fileInput"
                                                 onChange={(e) => field.onChange(e.target.files?.[0])}
                                                 className="hidden"
                                             />
@@ -102,7 +127,7 @@ export default function MasteringInputContainer() {
                         {/* Instrument File Upload */}
                         <FormField
                             control={form.control}
-                            name="instrumentFile"
+                            name="instrument_file"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
@@ -114,13 +139,13 @@ export default function MasteringInputContainer() {
                                             <span className="text-white">
                                                 {field.value instanceof File ? field.value.name : 'Upload Instrument File'}
                                             </span>
-                                            <Button className='py-5 px-10 cursor-pointer' type="button" onClick={() => document.getElementById('instrumentFileInput')?.click()}>
+                                            <Button className='py-5 px-10 cursor-pointer' type="button" onClick={() => document.getElementById('instrument_fileInput')?.click()}>
                                                 Browse
                                             </Button>
                                             <input
                                                 type="file"
                                                 accept="audio/*"
-                                                id="instrumentFileInput"
+                                                id="instrument_fileInput"
                                                 onChange={(e) => field.onChange(e.target.files?.[0])}
                                                 className="hidden"
                                             />
@@ -133,7 +158,7 @@ export default function MasteringInputContainer() {
 
                         <FormField
                             control={form.control}
-                            name="referenceTrack"
+                            name="reference_url"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
@@ -149,17 +174,17 @@ export default function MasteringInputContainer() {
                                                 </span>
                                                 <Input
                                                     placeholder='Enter YouTube link for reference track'
-                                                    className='h-14 bg-white border-0 text-[#B2BAC6] text-sm md:text-base rounded-lg'
+                                                    className='h-14 bg-white border-0 text-black text-sm md:text-base rounded-lg'
                                                     {...field}
                                                 />
                                             </div>
-                                            {/* <Button className='py-5 px-10 cursor-pointer' type="button" onClick={() => document.getElementById('instrumentFileInput')?.click()}>
+                                            {/* <Button className='py-5 px-10 cursor-pointer' type="button" onClick={() => document.getElementById('instrument_fileInput')?.click()}>
                                                 Browse
                                             </Button>
                                             <input
                                                 type="file"
                                                 accept="audio/*"
-                                                id="instrumentFileInput"
+                                                id="instrument_fileInput"
                                                 onChange={(e) => field.onChange(e.target.files?.[0])}
                                                 className="hidden"
                                             /> */}
