@@ -42,7 +42,10 @@ export default function HowItWorks() {
 
             <div className='container grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 mt-12 z-30'>
                 {steps.map((step, index) => (
-                    <div key={index} className="relative overflow-hidden h-[500px] shadow-xl">
+                    <div
+                        key={index}
+                        className="relative overflow-hidden aspect-square shadow-xl w-full max-w-[300px] sm:max-w-[350px] md:max-w-[400px] xl:max-w-[420px] mx-auto"
+                    >
                         <Image
                             src={step.image}
                             alt={step.title}
