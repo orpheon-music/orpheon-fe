@@ -1,15 +1,26 @@
 "use client"
-
 import type React from "react"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { Play, Pause } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface AudioPlayerProps {
     url: string
+    highEq?: number
+    mediumEq?: number
+    lowEq?: number
+    loudness?: number
+    stereoWidth?: number
 }
 
-export default function AudioPlayer({ url }: AudioPlayerProps) {
+export default function AudioPlayer({
+    url,
+    highEq = 0,
+    mediumEq = 0,
+    lowEq = 0,
+    loudness = 0,
+    stereoWidth = 0,
+}: AudioPlayerProps) {
     const [isPlaying, setIsPlaying] = useState(false)
     const [currentTime, setCurrentTime] = useState(0)
     const [duration, setDuration] = useState(0)
@@ -22,14 +33,135 @@ export default function AudioPlayer({ url }: AudioPlayerProps) {
     const audioContextRef = useRef<AudioContext | null>(null)
     const waveformRef = useRef<HTMLDivElement>(null)
 
-    const generateWaveformFromAudio = async (audioUrl: string) => {
+    // Audio processing nodes
+    const sourceNodeRef = useRef<MediaElementAudioSourceNode | null>(null)
+    const highFilterRef = useRef<BiquadFilterNode | null>(null)
+    const midFilterRef = useRef<BiquadFilterNode | null>(null)
+    const lowFilterRef = useRef<BiquadFilterNode | null>(null)
+    const gainNodeRef = useRef<GainNode | null>(null)
+    const splitterRef = useRef<ChannelSplitterNode | null>(null)
+    const mergerRef = useRef<ChannelMergerNode | null>(null)
+    const leftGainRef = useRef<GainNode | null>(null)
+    const rightGainRef = useRef<GainNode | null>(null)
+
+    const setupAudioProcessing = () => {
+        if (!audioRef.current || !audioContextRef.current) return
+
+        try {
+            // Create source node if it doesn't exist
+            if (!sourceNodeRef.current) {
+                sourceNodeRef.current = audioContextRef.current.createMediaElementSource(audioRef.current)
+            }
+
+            // Create EQ filters
+            if (!highFilterRef.current) {
+                highFilterRef.current = audioContextRef.current.createBiquadFilter()
+                highFilterRef.current.type = "highshelf"
+                highFilterRef.current.frequency.setValueAtTime(8000, audioContextRef.current.currentTime)
+            }
+
+            if (!midFilterRef.current) {
+                midFilterRef.current = audioContextRef.current.createBiquadFilter()
+                midFilterRef.current.type = "peaking"
+                midFilterRef.current.frequency.setValueAtTime(1000, audioContextRef.current.currentTime)
+                midFilterRef.current.Q.setValueAtTime(1, audioContextRef.current.currentTime)
+            }
+
+            if (!lowFilterRef.current) {
+                lowFilterRef.current = audioContextRef.current.createBiquadFilter()
+                lowFilterRef.current.type = "lowshelf"
+                lowFilterRef.current.frequency.setValueAtTime(200, audioContextRef.current.currentTime)
+            }
+
+            // Create gain node for loudness
+            if (!gainNodeRef.current) {
+                gainNodeRef.current = audioContextRef.current.createGain()
+            }
+
+            // Create stereo width processing nodes
+            if (!splitterRef.current) {
+                splitterRef.current = audioContextRef.current.createChannelSplitter(2)
+            }
+
+            if (!mergerRef.current) {
+                mergerRef.current = audioContextRef.current.createChannelMerger(2)
+            }
+
+            if (!leftGainRef.current) {
+                leftGainRef.current = audioContextRef.current.createGain()
+            }
+
+            if (!rightGainRef.current) {
+                rightGainRef.current = audioContextRef.current.createGain()
+            }
+
+            // Connect the audio graph
+            sourceNodeRef.current
+                .connect(lowFilterRef.current)
+                .connect(midFilterRef.current)
+                .connect(highFilterRef.current)
+                .connect(gainNodeRef.current)
+                .connect(splitterRef.current)
+
+            // Stereo width processing
+            splitterRef.current.connect(leftGainRef.current, 0)
+            splitterRef.current.connect(rightGainRef.current, 1)
+
+            leftGainRef.current.connect(mergerRef.current, 0, 0)
+            rightGainRef.current.connect(mergerRef.current, 0, 1)
+
+            mergerRef.current.connect(audioContextRef.current.destination)
+        } catch (err) {
+            console.error("Error setting up audio processing:", err)
+        }
+    }
+
+    const updateAudioProcessing = useCallback(() => {
+        if (!audioContextRef.current) return
+
+        const currentTime = audioContextRef.current.currentTime
+
+        // Update EQ
+        if (highFilterRef.current) {
+            highFilterRef.current.gain.setValueAtTime(highEq, currentTime)
+        }
+        if (midFilterRef.current) {
+            midFilterRef.current.gain.setValueAtTime(mediumEq, currentTime)
+        }
+        if (lowFilterRef.current) {
+            lowFilterRef.current.gain.setValueAtTime(lowEq, currentTime)
+        }
+
+        // Update loudness (convert to gain)
+        if (gainNodeRef.current) {
+            const gainValue = Math.pow(10, loudness / 20) // Convert dB to linear gain
+            gainNodeRef.current.gain.setValueAtTime(gainValue, currentTime)
+        }
+
+        // Update stereo width
+        if (leftGainRef.current && rightGainRef.current) {
+            // Stereo width algorithm
+            const widthFactor = stereoWidth / 30 // Normalize to -1 to 1
+            const leftGain = 1 + widthFactor * 0.5
+            const rightGain = 1 + widthFactor * 0.5
+
+            leftGainRef.current.gain.setValueAtTime(leftGain, currentTime)
+            rightGainRef.current.gain.setValueAtTime(rightGain, currentTime)
+        }
+    }, [highEq, mediumEq, lowEq, loudness, stereoWidth])
+
+
+    const generateWaveformFromAudio = useCallback(async (audioUrl: string) => {
         try {
             setIsLoading(true)
             setError(null)
 
             if (!audioContextRef.current) {
-                audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
+                audioContextRef.current = new (
+                    window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+                )()
             }
+
 
             const response = await fetch(audioUrl, { mode: "cors" })
             if (!response.ok) {
@@ -38,7 +170,6 @@ export default function AudioPlayer({ url }: AudioPlayerProps) {
 
             const arrayBuffer = await response.arrayBuffer()
             const audioBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer)
-
             const audioData = audioBuffer.getChannelData(0)
             const samples = audioData.length
             const blockSize = Math.max(1, Math.floor(samples / 200))
@@ -59,6 +190,12 @@ export default function AudioPlayer({ url }: AudioPlayerProps) {
             setWaveformData(waveform)
             setDuration(audioBuffer.duration)
             setIsLoading(false)
+
+            // Setup audio processing after loading
+            setTimeout(() => {
+                setupAudioProcessing()
+                updateAudioProcessing()
+            }, 100)
         } catch (err) {
             console.error("Error generating waveform:", err)
             setError("Failed to load audio file")
@@ -66,17 +203,22 @@ export default function AudioPlayer({ url }: AudioPlayerProps) {
             const fallbackWaveform = Array.from({ length: 200 }, () => Math.random() * 100 + 30)
             setWaveformData(fallbackWaveform)
         }
-    }
+    }, [updateAudioProcessing])
 
-    const togglePlayPause = () => {
-        if (audioRef.current) {
-            if (isPlaying) {
-                audioRef.current.pause()
-            } else {
-                audioRef.current.play()
-            }
-            setIsPlaying(!isPlaying)
+    const togglePlayPause = async () => {
+        if (!audioRef.current || !audioContextRef.current) return
+
+        // Resume audio context if suspended
+        if (audioContextRef.current.state === "suspended") {
+            await audioContextRef.current.resume()
         }
+
+        if (isPlaying) {
+            audioRef.current.pause()
+        } else {
+            audioRef.current.play()
+        }
+        setIsPlaying(!isPlaying)
     }
 
     const formatTime = (seconds: number) => {
@@ -87,33 +229,38 @@ export default function AudioPlayer({ url }: AudioPlayerProps) {
 
     const handleWaveformClick = (event: React.MouseEvent<HTMLDivElement>) => {
         if (!audioRef.current || duration === 0) return
-
         const rect = event.currentTarget.getBoundingClientRect()
         const clickX = event.clientX - rect.left
         const percentage = clickX / rect.width
         const newTime = percentage * duration
-
         audioRef.current.currentTime = newTime
         setCurrentTime(newTime)
     }
 
-    const handleDrag = (e: MouseEvent | TouchEvent) => {
-        if (!waveformRef.current || !audioRef.current || duration === 0) return
+    const handleDrag = useCallback(
+        (e: MouseEvent | TouchEvent) => {
+            if (!waveformRef.current || !audioRef.current || duration === 0) return
+            const clientX = (e as TouchEvent).touches ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX
+            const rect = waveformRef.current.getBoundingClientRect()
+            const percentage = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width))
+            const newTime = percentage * duration
+            audioRef.current.currentTime = newTime
+            setCurrentTime(newTime)
+        },
+        [duration],
+    )
 
-        const clientX = (e as TouchEvent).touches ? (e as TouchEvent).touches[0].clientX : (e as MouseEvent).clientX
-        const rect = waveformRef.current.getBoundingClientRect()
-        const percentage = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width))
-        const newTime = percentage * duration
 
-        audioRef.current.currentTime = newTime
-        setCurrentTime(newTime)
-    }
+    // Update audio processing when parameters change
+    useEffect(() => {
+        updateAudioProcessing()
+    }, [updateAudioProcessing])
 
     useEffect(() => {
         if (url) {
             generateWaveformFromAudio(url)
         }
-    }, [url])
+    }, [url, generateWaveformFromAudio])
 
     useEffect(() => {
         const audio = audioRef.current
@@ -159,7 +306,7 @@ export default function AudioPlayer({ url }: AudioPlayerProps) {
             window.removeEventListener("mouseup", stopDragging)
             window.removeEventListener("touchend", stopDragging)
         }
-    }, [isDragging])
+    }, [isDragging, handleDrag])
 
     const progress = duration > 0 ? currentTime / duration : 0
 
@@ -168,8 +315,6 @@ export default function AudioPlayer({ url }: AudioPlayerProps) {
             <div className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.5)] rounded-3xl p-8 relative overflow-hidden">
                 {/* Audio element */}
                 <audio ref={audioRef} src={url} preload="metadata" crossOrigin="anonymous" />
-
-
 
                 {/* Waveform */}
                 <div className="relative h-32 mb-8">
@@ -190,7 +335,7 @@ export default function AudioPlayer({ url }: AudioPlayerProps) {
                             {/* Draggable red line */}
                             <div
                                 className="absolute top-0 bottom-0 w-[2px] bg-red-500 z-10"
-                                style={{ left: `${progress * 100}%`, transform: 'translateX(-1px)' }}
+                                style={{ left: `${progress * 100}%`, transform: "translateX(-1px)" }}
                                 onMouseDown={() => setIsDragging(true)}
                                 onTouchStart={() => setIsDragging(true)}
                             />
@@ -201,7 +346,8 @@ export default function AudioPlayer({ url }: AudioPlayerProps) {
                                 return (
                                     <div
                                         key={index}
-                                        className={`w-[3px] rounded-sm border border-white ${isActive ? "bg-white" : "bg-white/40 hover:bg-white/60"}`}
+                                        className={`w-[3px] rounded-sm border border-white ${isActive ? "bg-white" : "bg-white/40 hover:bg-white/60"
+                                            }`}
                                         style={{ height: `${height}%`, minHeight: "4px" }}
                                     />
                                 )
@@ -237,7 +383,6 @@ export default function AudioPlayer({ url }: AudioPlayerProps) {
                     className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500/5 to-transparent transition-all duration-300 pointer-events-none"
                     style={{ width: `${progress * 100}%` }}
                 />
-
             </div>
         </div>
     )
