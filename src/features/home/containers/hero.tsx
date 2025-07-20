@@ -7,7 +7,7 @@ import EllipseHeroBottom from "@/assets/images/home/ellips-hero-bottom.png"
 export default function Hero() {
     return (
         <section
-        id='hero'
+            id='hero'
             style={{
                 position: "relative",
                 width: "100vw",
@@ -16,20 +16,12 @@ export default function Hero() {
             }}
         >
             <video
-                src={"/assets/videos/landing_video.mp4"}
+                src="/assets/videos/landing_video.mp4"
                 autoPlay
                 loop
                 muted
                 playsInline
-                style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100vw",
-                    height: "80vh",
-                    objectFit: "cover",
-                    zIndex: 1,
-                }}
+                className="absolute top-0 left-0 w-screen h-screen 2xl:h-[80vh] object-cover z-[1]"
             />
 
             {/* <div className="absolute inset-0 bg-black/40 z-[2]" /> */}
