@@ -1,13 +1,24 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Figtree, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/shared/navbar";
+import { Toaster } from "sonner";
+import NextAuthProvider from "@/components/provider/next-auth-provider";
+import ReactQueryProvider from "@/components/provider/react-query-provider";
+import { Suspense } from "react";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
   display: "swap",
 });
+
+const figtree = Figtree({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-figtree",
+});
+
 
 export const metadata: Metadata = {
   title: "Orpheon",
@@ -21,9 +32,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable} antialiased`}>
-        <Navbar/>
-        {children}
+      <body className={`${figtree.variable} ${spaceGrotesk.variable} antialiased`}>
+        <Toaster />
+        <NextAuthProvider>
+          <ReactQueryProvider>
+            <Suspense fallback={<div></div>}>
+              <Navbar />
+              {children}
+            </Suspense>
+          </ReactQueryProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );
