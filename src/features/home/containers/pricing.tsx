@@ -104,7 +104,7 @@ export default function Pricing() {
                         <span className='text-sm md:text-base text-[F8F8FF]'>Price</span>
                     </div>
                     <div className='flex flex-col gap-4 items-center pricing-header'>
-                        <h1 className='text-[30px] md:text-[54px] text-white text-center'>Pricing</h1>
+                        <h1 className='text-[30px] md:text-[54px] text-white text-center font-space-grotesk'>Pricing</h1>
                         <p className='text-[#A1A4A7] text-lg md:text-2xl max-w-[640px] text-center'>
                             Choose a plan that fits your needs—simple, transparent, and built for growth.
                         </p>

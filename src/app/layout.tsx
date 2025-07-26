@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Figtree, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/shared/navbar";
 import { Toaster } from "sonner";
@@ -13,6 +13,13 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
+const figtree = Figtree({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-figtree",
+});
+
+
 export const metadata: Metadata = {
   title: "Orpheon",
   description: "Revolutionize Your Music with AI",
@@ -25,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable} antialiased`}>
+      <body className={`${figtree.variable} ${spaceGrotesk.variable} antialiased`}>
         <Toaster />
         <NextAuthProvider>
           <ReactQueryProvider>

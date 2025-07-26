@@ -34,7 +34,7 @@ export default function LibraryContainer() {
             className="min-h-screen bg-cover bg-center py-20 md:py-40"
             style={{ backgroundImage: 'url("/authenticated-bg.png")' }}
         >
-            <h1 className="text-white text-3xl font-semibold text-center mb-12">Library</h1>
+            <h1 className="text-white text-3xl font-semibold text-center mb-12 font-space-grotesk">Library</h1>
             <div className="container min-h-[600px] py-10 px-14 rounded-3xl mt-9 bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.50)] transition-colors border flex flex-col items-stretch justify-between"
                 style={{ backdropFilter: "blur(27.85px)" }}>
 

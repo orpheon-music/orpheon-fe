@@ -5,6 +5,7 @@ import Image from 'next/image'
 import React, { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import EllipseHeroBottom from "@/assets/images/home/ellips-hero-bottom.png"
+import { Link } from 'react-scroll'
 
 export default function Hero() {
     const heroRef = useRef<HTMLDivElement>(null)
@@ -65,8 +66,10 @@ export default function Hero() {
                 loop
                 muted
                 playsInline
+                preload="auto"
                 className="hero-video absolute top-0 left-0 w-full h-screen 2xl:h-[80vh] object-cover z-[1]"
             />
+
 
             {/* Overlay Gradient */}
             <div className="absolute top-0 left-0 w-full h-full z-[2] bg-gradient-to-b from-[rgba(17,17,17,0.25)] to-[rgba(17,17,17,0.25)]" />
@@ -76,7 +79,7 @@ export default function Hero() {
                 <div className="flex justify-between flex-col gap-4 xl:flex-row w-full mb-5">
                     <div className="flex flex-col max-w-xl">
                         <div className="hero-text text-[#FF12D8] text-base">Orpheon</div>
-                        <h1 className="hero-text font-bold text-[24px] md:text-[54px] text-white">
+                        <h1 className="font-space-grotesk hero-text font-bold text-[30px] md:text-[54px] text-white">
                             Revolutionize Your Music
                             with AI
                         </h1>
@@ -87,14 +90,15 @@ export default function Hero() {
                             Unleash the full potential of your music with our cutting-edge AI mastering technology. Experience a new
                             dimension of sonic clarity and impact.
                         </p>
-
-                        <Button
-                            variant="outline"
-                            size="lg"
-                            className="hero-text w-fit px-16 py-6 rounded-none bg-transparent border-[#F8F8FF] text-white hover:bg-[#F8F8FF] hover:text-black transition-all duration-300"
-                        >
-                            Learn More
-                        </Button>
+                        <Link to='about' smooth={true} duration={500}>
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                className="hero-text w-fit px-16 py-6 rounded-none bg-transparent border-[#F8F8FF] text-white hover:bg-[#F8F8FF] hover:text-black transition-all duration-300"
+                            >
+                                Learn More
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -103,7 +107,7 @@ export default function Hero() {
             <Image
                 src={EllipseHeroBottom}
                 alt="Ellipse Hero Bottom"
-                className="hero-ellipse absolute bottom-0 left-0 w-full h-auto z-[20]"
+                className="h-[200px] sm:h-auto hero-ellipse absolute bottom-0 left-0 w-full z-[20]"
             />
         </section>
     )

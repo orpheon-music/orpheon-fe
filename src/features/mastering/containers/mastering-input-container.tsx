@@ -94,7 +94,7 @@ export default function MasteringInputContainer() {
             className="min-h-screen bg-cover bg-center py-10 md:pt-20 md:pb-40 flex flex-col items-center justify-center gap-9"
             style={{ backgroundImage: 'url("/authenticated-bg.png")' }}
         >
-            <h1 className="text-white text-3xl font-semibold text-center">File Upload</h1>
+            <h1 className="text-white text-3xl font-semibold text-center font-space-grotesk">File Upload</h1>
             <MasteringLoadingModal open={loading} />
 
 
@@ -209,12 +209,12 @@ export default function MasteringInputContainer() {
                         <div className='flex flex-col md:flex-row justify-center items-center gap-6'>
                             <div className='py-8 px-6 flex flex-col gap-6 rounded-3xl border border-[rgba(255,255,255,0.50)] bg-[rgba(255,255,255,0.05)] transition-colors'>
                                 <span className=''>Support</span>
-                                <span className='text-2xl'>WAV, MP3, FLAC</span>
+                                <span className='text-2xl font-space-grotesk'>WAV, MP3, FLAC</span>
                                 <span className='text-[#C0C0C0]'>formats</span>
                             </div>
                             <div className='py-8 px-6 flex flex-col gap-6 rounded-3xl border border-[rgba(255,255,255,0.50)] bg-[rgba(255,255,255,0.05)] transition-colors'>
                                 <span className=''>Under</span>
-                                <span className='text-2xl'>100 MB, 10 mins</span>
+                                <span className='text-2xl font-space-grotesk'>100 MB, 10 mins</span>
                                 <span className='text-[#C0C0C0]'>audio file</span>
                             </div>
                         </div>

@@ -225,7 +225,7 @@ export default function MasteringAudioContainer() {
             style={{ backgroundImage: 'url("/authenticated-bg.png")' }}
         >
             <div className="flex justify-between items-center container">
-                <span>{isLoading ? "Loading..." : `${data?.audio_processing.name}`}</span>
+                <span className="font-space-groteskf">{isLoading ? "Loading..." : `${data?.audio_processing.name}`}</span>
                 <div className="flex gap-6">
                     <Button variant={"outline"}>Delete</Button>
                     <Button variant={"white"} onClick={handleSave}>Save</Button>

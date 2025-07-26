@@ -72,9 +72,9 @@ export default function HowItWorks() {
                 <div className="flex flex-col gap-6 items-start">
                     <div className="border-[#767B7E] px-3 py-2 border flex gap-2.5 items-center ">
                         <div className="bg-[#FF12D8] rounded-full w-7 h-7" />
-                        <span className="hiw-title">How It Works</span>
+                        <span className="hiw-title ">How It Works</span>
                     </div>
-                    <h1 className="hiw-title text-6xl">Everyone Is a Singer</h1>
+                    <h1 className="hiw-title text-6xl font-space-grotesk">Everyone Is a Singer</h1>
                     <p className="hiw-description text-[#CECECE] text-sm md:text-base leading-relaxed">
                         Our AI-powered mastering tool transforms raw vocals into studio-quality sound, instantly...
                     </p>
@@ -96,7 +96,7 @@ export default function HowItWorks() {
                         />
                         <div className="relative z-20 flex flex-col justify-end h-full p-6 text-white">
                             <div className="backdrop-blur-md bg-[#595959]/[0.04] p-4">
-                                <h3 className="text-xl md:text-2xl font-bold mb-2">{step.title}</h3>
+                                <h3 className="text-xl md:text-2xl font-bold mb-2 font-space-grotesk">{step.title}</h3>
                                 <p className="text-sm md:text-base text-[#BEBEBE]">{step.desc}</p>
                             </div>
                         </div>

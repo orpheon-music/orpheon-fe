@@ -50,7 +50,7 @@ export default function Sample() {
           <span className='text-sm md:text-base text-[F8F8FF]'>Sample</span>
         </div>
         <div className='flex flex-col gap-4 items-center sample-anim'>
-          <h1 className='text-[30px] md:text-[54px] text-white text-center'>Music Sample</h1>
+          <h1 className='text-[30px] md:text-[54px] text-white text-center font-space-grotesk'>Music Sample</h1>
           <p className='text-[#A1A4A7] text-lg md:text-2xl max-w-[640px] text-center'>
             Listen to how our innovative technology transforms raw audio into polished tracks,
             showcasing clarity and depth that elevates your sound to professional standards.
