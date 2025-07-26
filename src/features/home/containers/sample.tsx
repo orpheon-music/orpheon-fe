@@ -7,13 +7,55 @@ import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Pause, Play } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const FE_URL = process.env.NEXT_PUBLIC_FE_URL || ""
+
 export default function Sample() {
   const [selected, setSelected] = useState<"AI-Assisted" | "Original">("AI-Assisted")
+  const [isPlaying, setIsPlaying] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
+  // Play/Pause toggle logic
+  const togglePlayPause = () => {
+    if (!audioRef.current) return
+
+    if (isPlaying) {
+      audioRef.current.pause()
+    } else {
+      audioRef.current.play()
+    }
+
+    setIsPlaying(!isPlaying)
+  }
+
+  // Ganti source audio saat tab berubah
+  useEffect(() => {
+    const newSrc =
+      selected === "Original"
+        ? `${FE_URL}/assets/audios/sample-input.mp3`
+        : `${FE_URL}/assets/audios/sample-dynamic.wav`
+
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.src = newSrc
+      audioRef.current.load()
+      if (isPlaying) {
+        audioRef.current.play()
+      }
+    } else {
+      const audio = new Audio(newSrc)
+      audioRef.current = audio
+    }
+
+    setIsPlaying(false) // reset state
+  }, [selected])
+
+  // Animasi scroll trigger
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -24,7 +66,7 @@ export default function Sample() {
             trigger: sectionRef.current,
             start: "top 80%",
             toggleActions: "play none none none",
-            once: true, 
+            once: true,
           },
           opacity: 1,
           y: 0,
@@ -76,11 +118,22 @@ export default function Sample() {
         </div>
       </div>
 
-      <div className='flex justify-center items-center relative mt-16'>
+      <div className='flex justify-center items-center relative '>
+        <Button
+          onClick={togglePlayPause}
+          size="lg"
+          className="w-16 h-16 md:h-32 md:w-32 z-40 rounded-full bg-white hover:bg-gray-100 text-black p-0 disabled:opacity-50 absolute top-[42%]"
+        >
+          {isPlaying ? (
+            <Pause className="w-6 h-6 ml-0.5" fill="currentColor" />
+          ) : (
+            <Play className="w-6 h-6 ml-1" fill="currentColor" />
+          )}
+        </Button>
         <Image
           src={Disk}
           alt="Sample Disk"
-          className='z-30 animate-spin-slow'
+          className={cn('z-30 transition-all duration-300', isPlaying ? 'animate-spin-slow' : '')}
         />
         <Image
           src={Ellipse}
