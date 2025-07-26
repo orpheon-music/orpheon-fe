@@ -100,7 +100,7 @@ export default function MasteringInputContainer() {
 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 container ">
-                    <div className="container py-10 md:px-14 rounded-3xl mt-9 bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.50)] transition-colors border max-w-4xl flex flex-col gap-6 "
+                    <div className="container py-10 px-5 md:px-14 rounded-3xl mt-9 bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.50)] transition-colors border max-w-4xl flex flex-col gap-6 "
                         style={{ backdropFilter: 'blur(27.85px)' }}
                     >
                         {/* Vocal File Upload */}
@@ -118,7 +118,7 @@ export default function MasteringInputContainer() {
                                             <span className="text-white">
                                                 {field.value instanceof File ? field.value.name : 'Upload Vocal File'}
                                             </span>
-                                            <Button className='py-5 px-10 cursor-pointer' type="button" onClick={() => document.getElementById('voice_fileInput')?.click()}>
+                                            <Button className='w-full md:w-auto py-5 px-10 cursor-pointer' type="button" onClick={() => document.getElementById('voice_fileInput')?.click()}>
                                                 Browse
                                             </Button>
                                             <input
@@ -143,14 +143,14 @@ export default function MasteringInputContainer() {
                                 <FormItem>
                                     <FormControl>
                                         <div
-                                            className="flex flex-col md:flex-row py-10 px-14 rounded-3xl bg-[rgba(255,255,255,0.05)] border-dashed border-[rgba(255,255,255,0.50)] justify-center items-center gap-6"
+                                            className="flex flex-col md:flex-row py-10 px-4 md:px-14 rounded-3xl bg-[rgba(255,255,255,0.05)] border-dashed border-[rgba(255,255,255,0.50)] justify-center items-center gap-6"
                                             style={{ backdropFilter: 'blur(27.85px)' }}
                                         >
                                             <Image src={Guitar} alt="Guitar" />
                                             <span className="text-white">
                                                 {field.value instanceof File ? field.value.name : 'Upload Instrument File'}
                                             </span>
-                                            <Button className='py-5 px-10 cursor-pointer' type="button" onClick={() => document.getElementById('instrument_fileInput')?.click()}>
+                                            <Button className='w-full md:w-auto py-5 px-10 cursor-pointer' type="button" onClick={() => document.getElementById('instrument_fileInput')?.click()}>
                                                 Browse
                                             </Button>
                                             <input
@@ -174,18 +174,18 @@ export default function MasteringInputContainer() {
                                 <FormItem>
                                     <FormControl>
                                         <div
-                                            className="flex flex-col lg:flex-row py-10 px-14 rounded-3xl bg-[rgba(255,255,255,0.05)] border-dashed border-[rgba(255,255,255,0.50)] items-center xl:items-stretch gap-6"
+                                            className="flex flex-col lg:flex-row py-10 px-4 md:px-14 rounded-3xl bg-[rgba(255,255,255,0.05)] border-dashed border-[rgba(255,255,255,0.50)] items-center xl:items-stretch gap-6"
                                             style={{ backdropFilter: 'blur(27.85px)' }}
                                         >
                                             <Image src={Bookmark} alt="Bookmark" />
 
-                                            <div className='flex flex-col gap-6 w-full'>
+                                            <div className='flex flex-col gap-6 w-full items-stretch'>
                                                 <span className='text-center'>
                                                     Upload Reference Track or Youtube Link
                                                 </span>
                                                 <Input
                                                     placeholder='Enter YouTube link for reference track'
-                                                    className='h-14 bg-white border-0 text-black text-sm md:text-base rounded-lg'
+                                                    className='h-14 bg-white border-0 text-black text-sm md:text-base rounded-lg w-full'
                                                     {...field}
                                                 />
                                             </div>
@@ -221,7 +221,7 @@ export default function MasteringInputContainer() {
 
 
                     </div>
-                    <div className='px-4'>
+                    <div className='px-4 flex justify-center mb-[20vh]'>
                         <Button
                             type="submit"
                             className=" hover:text-white w-full max-w-4xl flex self-center py-5 bg-white text-black font-semibold rounded"

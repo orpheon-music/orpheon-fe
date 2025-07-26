@@ -289,7 +289,7 @@ export default function MasteringAudioContainer() {
                     </div>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl w-full">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl w-full container">
                     {/* Equalizer Section */}
                     <Card className="bg-[rgba(255,255,255,0.05)] backdrop-blur-sm border border-[rgba(255,255,255,0.5)] rounded-3xl p-8">
                         <div className="text-center mb-8">
@@ -401,7 +401,7 @@ export default function MasteringAudioContainer() {
                                 <div className="text-white font-semibold text-base">
                                     Value: {getLoudnessValue(loudnessRotation).toFixed(1)} dB
                                 </div>
-                                <div className="absolute top-1/2 flex justify-between items-center w-full max-w-xs md:max-w-sm px-4">
+                                <div className="absolute top-1/2 flex justify-between items-center w-full max-w-xs md:max-w-md px-0">
                                     <span className="text-white text-sm md:text-base font-medium">Natural</span>
                                     <span className="text-white text-sm md:text-base font-medium">Max</span>
                                 </div>
