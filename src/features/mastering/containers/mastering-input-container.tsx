@@ -99,7 +99,7 @@ export default function MasteringInputContainer() {
 
 
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 container ">
                     <div className="container py-10 md:px-14 rounded-3xl mt-9 bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.50)] transition-colors border max-w-4xl flex flex-col gap-6 "
                         style={{ backdropFilter: 'blur(27.85px)' }}
                     >
@@ -221,12 +221,15 @@ export default function MasteringInputContainer() {
 
 
                     </div>
-                    <Button
-                        type="submit"
-                        className="hover:text-white w-full max-w-4xl flex self-center py-5 bg-white text-black font-semibold rounded"
-                    >
-                        Upload Files
-                    </Button>
+                    <div className='px-4'>
+                        <Button
+                            type="submit"
+                            className=" hover:text-white w-full max-w-4xl flex self-center py-5 bg-white text-black font-semibold rounded"
+                        >
+                            Upload Files
+                        </Button>
+                    </div>
+
                 </form>
             </Form>
         </div >
