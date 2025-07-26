@@ -28,7 +28,7 @@ export function useSignUp({ onSuccess, onError }: UseSignUpProps = {}) {
             onSuccess: () => {
                 toast.success("Registration successful!")
                 onSuccess?.()
-                router.refresh()
+                router.push("/?signin=true")
             },
             onError: (error) => {
                 const message = handleApiError(error)

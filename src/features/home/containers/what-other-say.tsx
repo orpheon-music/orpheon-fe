@@ -9,7 +9,7 @@ export default function WhatOtherSay() {
                     <div className='w-8 h-8 bg-[#1778F2] rounded-full' />
                     <span className='text-sm md:text-base text-[F8F8FF]'>Review</span>
                 </div>
-                <h1 className='text-[30px] md:text-[54px] text-white text-start font-bold'>What Others Say</h1>
+                <h1 className='text-[30px] md:text-[54px] text-white text-start font-bold font-space-grotesk'>What Others Say</h1>
             </div>
             <TestimonialScroller />
 

@@ -60,6 +60,8 @@ export default function SignUpModal({
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         await register(values)
+        setOpen(false)
+        form.reset()
     }
 
     const handleSwitchToSignIn = () => {
